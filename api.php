@@ -35,11 +35,11 @@ if(isset($_GET['products'])){
 if(!empty($_FILES['prod_img']['name'])){   
     $file_name = $_FILES['prod_img']['name'];
     $extension = pathinfo($file_name,PATHINFO_EXTENSION);
-    $upload_path = 'upload/';
-
+    $upload_path = '';
+	
 	$temp_file_name = $file_name;
     $upload_file = $upload_path. '' . $file_name;
-    $image = 'upload/'.$temp_file_name;
+    $image = ''.$temp_file_name;
     error_log($image);
     if(move_uploaded_file($_FILES["prod_img"]["tmp_name"], $upload_file)){
         echo $image;
