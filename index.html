@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<!-- http://webapplayers.com/inspinia_admin-v2.8/ -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ShopBridge | Dashboard</title>
+
+    <!-- ==== Favicon ==== -->
+    <link rel="icon" href="http://adpigeons.com/admin/img/app_icon.png" type="image/png">    
+    <link rel='image_src' href="http://adpigeons.com/admin/img/app_icon.png">
+    <meta property='og:image' content="http://adpigeons.com/admin/img/app_icon.png">
+    <meta itemprop="image" content="http://adpigeons.com/admin/img/app_icon.png">
+
+    <link href="http://adpigeons.com/admin/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://adpigeons.com/admin/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <!-- <link href="http://adpigeons.com/admin/css/plugins/cropper/cropper.min.css" rel="stylesheet"> -->
+    <link href="http://adpigeons.com/admin/css/plugins/cropper/cropper.css" rel="stylesheet">
+    <script src="http://adpigeons.com/admin/js/a076d05399.js"></script>
+    <link href="http://adpigeons.com/admin/css/animate.css" rel="stylesheet">
+    <link href="http://adpigeons.com/admin/css/style.css" rel="stylesheet">
+    <link href="http://adpigeons.com/admin/css/plugins/chosen/bootstrap-chosen.css" rel="stylesheet">
+    <link href="http://adpigeons.com/admin/css/plugins/footable/footable.core.css" rel="stylesheet">
+    <script src="https://code.angularjs.org/1.2.16/angular.js"></script>
+    <!-- <script src="scriptAJ.js"></script> -->
+</head>
+
+<body>
+<div id="wrapper" ng-app="App">
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="nav-header">
+                    <div class="dropdown profile-element">
+                        <img alt="image" class="rounded-circle client-avatar img-circle" src="http://adpigeons.com/admin/img/app_icon.png"/>
+                        <!-- <img alt="image" class="img-responsive" src="http://adpigeons.com/admin/img/logo-1.png"/> -->
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="block m-t-xs font-bold">Admin</span>
+                            <span class="text-muted text-xs block">skraees79@gmail.com <b class="caret"></b></span>
+                        </a>
+                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                            <!-- <li><a class="dropdown-item" href="profile">Profile</a></li> -->
+                            <li><a class="dropdown-item" href="login">Logout</a></li>
+                        </ul>
+                    </div>
+                    <div class="logo-element">
+                        SB
+                    </div>
+                </li>
+                <li class="active">
+                    <a href="home"><i class="fa fa-gift"></i> <span class="nav-label">Products</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+                </div>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li>
+                        <span class="m-r-sm text-muted welcome-message">Welcome to ShopBridge Admin Panel.</span>
+                    </li>
+
+                    <li>
+                        <a href="login">
+                            <i class="fa fa-sign-out"></i> Log out
+                        </a>
+                    </li>
+                </ul>
+
+            </nav>
+        </div>
+
+        <div id="container" ng-controller="CrudCtrl">
+            
+            <div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>Products</h2>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="home">Home</a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            <strong>Products</strong>
+                        </li>
+                    </ol>
+                </div>
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+            <div class="wrapper wrapper-content animated fadeInRight">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox ">
+                            <div class="ibox-title">
+                                <h5>Products List </h5>
+                                 <button class="btn btn-primary btn-xs pull-right" ng-click="add()">Add Product <i class="fa fa-plus"></i></button>
+                            </div>
+                            <div class="ibox-content">
+                                <input type="text" class="form-control form-control-sm m-b-xs" id="filter"
+                                       placeholder="Search in table">
+                                
+                                <table class="footable table table-stripped" data-page-size="10" data-filter=#filter>
+                                    <thead>
+                                    <tr>
+                                        <th>Sr.</th>
+                                        <th>Image</th>
+                                        <th>Name</th>
+                                        <th data-hide="phone,tablet">Description</th>
+                                        <th>Price</th>
+                                        <th>Option</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="gradeX" data-id="1" ng-repeat="profile in Profiles">
+                                        <td>{{ $index+1 }}</td>
+                                        <td class="client-avatar"><img alt="image" src="{{ profile.image }}"></td>
+                                        <td><b>{{ profile.name }}</b></td>
+                                        <td>{{ profile.description }}</td>
+                                        <td><b>₹{{ profile.price }}</b></td>
+                                        <td class="center client-action"><a href="javascript:void(0);" ng-click="edit($index)"><i class="text-info fa fa-edit"></i></a>&emsp;<a href="javascript:void(0);" ng-click="delete($index)"><i class="text-danger fa fa-trash"></i></a></td>
+                                    </tr>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td colspan="5">
+                                            <ul class="pagination"></ul>
+                                        </td>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal inmodal" id="myModal4" tabindex="-1" role="dialog"  aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content animated fadeIn">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h5 class="modal-title">Add Product Image</h5>
+                        </div>
+                        <div class="modal-body">
+
+                            <form id="add-product" method="post" enctype="multipart/form-data">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Product Image</label>
+                                    <div class="col-sm-4">
+                                        <input type="file" id="prod_img" name="prod_img" class="hidden" accept="image/*" hidden />
+                                        <input type="hidden" name="IMAGE" class="prod_image hidden" hidden />
+                                        <img id="prodimg" style="cursor: pointer;width:100px;height: 100px;" onclick="$('#prod_img').click()" title="upload product image" src="http://adpigeons.com/admin/img/product-img.jpg">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group row">
+                                    <input type="hidden" name="PRODUCT_ID" value="" placeholder="PRODUCT_ID" class="form-control" readonly>
+                                    <label class="col-sm-2 col-form-label">Product Name</label>
+                                    <div class="col-sm-10"><input type="text" name="NAME" value="" placeholder="Product Name" class="form-control" required></div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Product Description</label>
+                                    <div class="col-sm-10"><textarea name="DESCRIPTION" rows="3" placeholder="Product Description" class="form-control" requireda></textarea></div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Price ₹</label>
+                                    <div class="col-sm-5"><input type="text" name="PRICE" value="" placeholder="₹100" class="form-control" onkeypress="return isNumber(event);" minlength="1" required></div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group row">
+                                    <div class="col-sm-4 col-sm-offset-2">
+                                        <button class="btn btn-primary btn-md" ng-click="save()" type="submit">Save <i class="fa fa-save"> </i></button>
+                                        <button class="btn btn-white btn-md" type="reset">Cancel</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal inmodal" id="myModal2" tabindex="-1" role="dialog"  aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content animated fadeIn">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h5 class="modal-title">Update Product</h5>
+                        </div>
+                        <div class="modal-body">
+
+                            <form id="update-product" method="post" enctype="multipart/form-data" ng-repeat="profile1 in Profile1">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Product Image</label>
+                                    <div class="col-sm-4">
+                                        <input type="file" id="prod_imgu" name="prod_imgu" class="hidden" accept="image/*" hidden />
+                                        <input type="hidden" name="IMAGE" class="prod_image" value="{{ profile1.image }}" class="hidden" hidden />
+                                        <img id="prodimgu" style="cursor: pointer;width:100px;height: 100px;" onclick="$('#prod_imgu').click()" title="upload product image" src="{{ profile1.image }}">
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group row">
+                                    <input type="hidden" name="PRODUCT_ID" value="{{ profile1.id }}" placeholder="PRODUCT_ID" class="form-control" readonly>
+                                    <label class="col-sm-2 col-form-label">Product Name</label>
+                                    <div class="col-sm-10"><input type="text" name="NAME" value="{{ profile1.name }}" placeholder="Product Name" class="form-control" required></div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Product Description</label>
+                                    <div class="col-sm-10"><textarea name="DESCRIPTION" rows="3" placeholder="Product Description" class="form-control" requireda>{{ profile1.description }}</textarea></div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Price ₹</label>
+                                    <div class="col-sm-5"><input type="text" name="PRICE" value="{{ profile1.price }}" placeholder="₹100" class="form-control" onkeypress="return isNumber(event);" minlength="1" required></div>
+                                </div>
+
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group row">
+                                    <div class="col-sm-4 col-sm-offset-2">
+                                        <button class="btn btn-primary btn-md" ng-click="update(profile1.id)" type="submit">Save <i class="fa fa-save"> </i></button>
+                                        <button class="btn btn-white btn-md" type="reset">Cancel</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer">
+            <div class="pull-right">
+                Developed by <strong><a href="mailto:skraees79@gmail.com" target="_blank">Raees Shaikh</a></strong>.
+            </div>
+            <div>
+                <strong>Copyright</strong> ShopBridge &copy; 2021
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Mainly scripts -->
+    <script src="http://adpigeons.com/admin/js/jquery-3.1.1.min.js"></script>
+    <script src="http://adpigeons.com/admin/js/popper.min.js"></script>
+    <script src="http://adpigeons.com/admin/js/bootstrap.js"></script>
+    <script src="http://adpigeons.com/admin/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="http://adpigeons.com/admin/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="http://adpigeons.com/admin/js/inspinia.js"></script>
+    <script src="http://adpigeons.com/admin/js/plugins/pace/pace.min.js"></script>
+
+    <!-- Chosen -->
+    <script src="http://adpigeons.com/admin/js/plugins/chosen/chosen.jquery.js"></script>
+
+    <!-- Image cropper -->
+    <!-- <script src="http://adpigeons.com/admin/js/plugins/cropper/cropper.min.js"></script> -->
+    <script src="http://adpigeons.com/admin/js/plugins/cropper/cropper.js"></script>
+
+    <!-- ==== Validation ==== -->
+    <script src="http://adpigeons.com/admin/js/validation.js"></script>
+
+    <!-- ==== SweetAlert Script ==== -->
+    <script src="http://adpigeons.com/admin/js/sweetalert.min.js"></script>
+    
+    <!-- ==== Custome Script ==== -->
+    <script src="http://adpigeons.com/admin/js/custome.js"></script>
+    
+    <!-- FooTable -->
+    <script src="http://adpigeons.com/admin/js/plugins/footable/footable.all.min.js"></script>
+
+    <!-- Page-Level Scripts -->
+    <script>
+
+    $(document).ready(function() {
+        $('.footable').footable();
+    });
+
+    /* UPLOAD IMAGE PREVIEW START */
+    $(document).on('change','#prod_img',function(){
+        if (this.files && this.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#prodimg').attr('src', e.target.result).fadeIn();
+                  // Use `jQuery.ajax` method
+                var formData = new FormData();
+                formData.append('prod_img', $('#prod_img')[0].files[0]);
+                $.ajax({
+                    url: "api.php", 
+                    type: "post",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response){
+                        $('.prod_image').val(response);
+                    }
+                });
+            };  
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
+
+    $(document).on('change','#prod_imgu',function(){
+        if (this.files && this.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#prodimgu').attr('src', e.target.result).fadeIn();
+                  // Use `jQuery.ajax` method
+                var formData = new FormData();
+                formData.append('prod_img', $('#prod_imgu')[0].files[0]);
+                $.ajax({
+                    url: "api.php", 
+                    type: "post",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response){
+                        $('.prod_image').val(response);
+                    }
+                });
+            };  
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
+    /* UPLOAD IMAGE PREVIEW END */
+
+    angular.module('App', []).controller('CrudCtrl', function($scope, $http) {
+        $http({
+        method : "GET",
+        url : "api.php?products"
+      }).then(function mySuccess(response) {
+          $scope.Profiles = response.data;
+        });
+       
+       $scope.entity = {}
+          
+       $scope.edit = function(id){
+        
+         $http({
+          method : "GET",
+          url : "api.php?product="+id
+        }).then(function mySuccess(response) {
+
+          $scope.Profile1 = response.data;
+          $('#myModal2').modal('show');
+        });
+
+       }
+          
+       $scope.update = function(id){
+         var data = $("#update-product").serialize();
+         $http({
+          method : "GET",
+          url : "api.php?"+data
+        }).then(function mySuccess(response) {
+          $scope.Profiles = response.data;
+          $('#myModal2').modal('hide');
+          swal("Proof! Product has been updated",{icon: "success",});
+        });         
+       }
+          
+       $scope.delete = function(id){
+        swal({
+          title: "Are you sure?",
+          text: "Product will be deleted",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if(willDelete) {
+            $http({
+              method : "GET",
+              url : "api.php?delete="+id
+            }).then(function mySuccess(response) {
+              $scope.Profiles = response.data;
+            });
+            $scope.Profiles.splice(id);
+          swal("Proof! Product has been deleted",{icon: "success",});
+          }
+        });
+       }
+          
+       $scope.save = function(){
+         var data = $("#add-product").serialize();
+         $http({
+          method : "GET",
+          url : "api.php?"+data
+        }).then(function mySuccess(response) {
+          $scope.Profiles = response.data;
+          $('#myModal4').modal('hide');
+          swal("Proof! Product has been added",{icon: "success",});
+        });
+       }
+          
+       $scope.add = function(){
+        $('#myModal4').modal('show');
+       }
+      }
+    );
+    </script>
+</body>
+</html>
